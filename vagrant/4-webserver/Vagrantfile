@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    # Configure the first VM, named "webserver"
+    config.vm.define "webserver" do |webserver|
+      # Specify the base box to use, which is Ubuntu 22.04 LTS
+      webserver.vm.box = "bento/ubuntu-22.04"
+      # Set the hostname of the VM for easy identification
+      webserver.vm.hostname = "webserver"
+      # Forward port 80 from the guest (VM) to port 8000 on the host
+      webserver.vm.network "forwarded_port", guest: 80, host: 8000
+      # Configure a private network with a specific IP
+      webserver.vm.network "private_network", ip: "192.168.56.10"
+  
+      # Use a shell provisioner to install and start Apache Web Server
+      webserver.vm.provision "shell", inline: <<-SHELL
+        # Update and upgrade the package list on the VM
+        sudo apt-get update && sudo apt-get upgrade -y
+        # Install Apache2 package
+        sudo apt-get install -y apache2
+        # Enable Apache2 to start at boot and then start the service immediately
+        sudo systemctl enable apache2
+        sudo systemctl start apache2
+      SHELL
+    end
+  
+    # Configure the second VM, named "plainserver", without Apache
+    config.vm.define "plainserver" do |plainserver|
+      # Specify the same base box, Ubuntu 22.04 LTS
+      plainserver.vm.box = "bento/ubuntu-22.04"
+      # Set a different hostname for this VM
+      plainserver.vm.hostname = "plainserver"
+      # Configure a private network for this VM too, with a different IP
+      plainserver.vm.network "private_network", ip: "192.168.56.11"
+    end
+  end
+  

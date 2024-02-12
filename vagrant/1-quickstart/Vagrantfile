@@ -1,0 +1,12 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-22.04"
+  
+    config.vm.define "ubuntu-vm" do |vm|
+      vm.vm.hostname = "ubuntu-vm"
+    end
+
+end
+  
