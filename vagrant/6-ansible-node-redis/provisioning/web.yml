@@ -1,0 +1,26 @@
+---
+- hosts: web
+  become: yes
+  tasks:
+    - name: Install Node.js
+      ansible.builtin.apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+
+    - name: Install npm
+      ansible.builtin.apt:
+        name: npm
+        state: present
+        update_cache: yes
+
+    - name: Copy application files
+      ansible.builtin.copy:
+        src: ../files/
+        dest: /home/vagrant/
+    
+    - name: Install app dependencies
+      ansible.builtin.shell: cd /home/vagrant && npm install
+    
+    - name: Start the Node.js app
+      ansible.builtin.shell: cd /home/vagrant && node app.js &

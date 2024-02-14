@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Define the Ubuntu 22.04 LTS box
+  config.vm.box = "bento/ubuntu-22.04"
+
+  # VM configuration for the first VM
+  config.vm.define "vm1" do |vm1|
+    vm1.vm.hostname = "vm1"
+    # Network configuration for the first VM
+    vm1.vm.network "private_network", ip: "192.168.56.10"
+  end
+
+  # VM configuration for the second VM
+  config.vm.define "vm2" do |vm2|
+    vm2.vm.hostname = "vm2"
+    # Network configuration for the second VM
+    vm2.vm.network "private_network", ip: "192.168.56.11"
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+  end
+end

@@ -1,0 +1,23 @@
+---
+- name: Ping VMs
+  hosts: all
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:
+
+- name: Set Webserver 
+  hosts: web
+  gather_facts: yes
+  become: yes
+  roles:
+    - webserver
+
+- name: Set Plainserver 
+  hosts: plain
+  gather_facts: yes
+  become: yes
+  roles:
+    - be_pretty
+    

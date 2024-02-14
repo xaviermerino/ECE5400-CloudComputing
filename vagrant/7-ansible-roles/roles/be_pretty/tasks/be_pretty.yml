@@ -1,0 +1,3 @@
+- name: Print Pretty Message
+  ansible.builtin.debug:
+    msg: "I am already pretty!"

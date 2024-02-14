@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define "db" do |db|
+    db.vm.box = "bento/ubuntu-22.04"
+    db.vm.network "private_network", ip: "192.168.56.72"
+    db.vm.hostname = "db-server"
+    db.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/db.yml"
+    end
+  end
+
+  config.vm.define "web" do |web|
+    web.vm.box = "bento/ubuntu-22.04"
+    web.vm.network "private_network", ip: "192.168.56.71"
+    web.vm.hostname = "web-server"
+    web.vm.network "forwarded_port", guest: 3000, host: 3000
+    web.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/web.yml"
+    end
+  end
+  
+end
+
+  

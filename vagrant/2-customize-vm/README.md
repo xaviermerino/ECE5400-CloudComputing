@@ -19,8 +19,8 @@ By following this tutorial, you will:
 1. Open a terminal or command prompt.
 2. Create a new directory for your Vagrant project and navigate into it:
    ```bash
-   mkdir vagrant-custom
-   cd vagrant-custom
+   mkdir vagrant-customize
+   cd vagrant-customize
    ```
 
 ## Step 2: Initialize a New Vagrantfile

@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    # Configure the first VM, named "webserver"
+    config.vm.define "webserver" do |webserver|
+      # Specify the base box to use, which is Ubuntu 22.04 LTS
+      webserver.vm.box = "bento/ubuntu-22.04"
+      # Set the hostname of the VM for easy identification
+      webserver.vm.hostname = "webserver"
+      # Forward port 80 from the guest (VM) to port 8000 on the host
+      webserver.vm.network "forwarded_port", guest: 80, host: 8000
+      # Configure a private network with a specific IP
+      webserver.vm.network "private_network", ip: "192.168.56.10"
+    end
+  
+    # Configure the second VM, named "plainserver", without Apache
+    config.vm.define "plainserver" do |plainserver|
+      # Specify the same base box, Ubuntu 22.04 LTS
+      plainserver.vm.box = "bento/ubuntu-22.04"
+      # Set a different hostname for this VM
+      plainserver.vm.hostname = "plainserver"
+      # Configure a private network for this VM too, with a different IP
+      plainserver.vm.network "private_network", ip: "192.168.56.11"
+
+      plainserver.vm.provision "ansible" do |ansible|
+        ansible.playbook = "setup.yml"
+        ansible.limit = 'all'
+        ansible.groups = {
+          'web' => ['webserver'],
+          'plain' => ['plainserver']
+        }
+      end
+    end
+  end
+  

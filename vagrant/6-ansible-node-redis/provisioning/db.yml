@@ -1,0 +1,22 @@
+---
+- hosts: db
+  become: yes
+  tasks:
+    - name: Install Redis Server
+      ansible.builtin.apt:
+        name: redis-server
+        state: present
+        update_cache: yes
+    
+    - name: Update Redis configuration to accept connections from any IP
+      lineinfile:
+        path: /etc/redis/redis.conf
+        regexp: '^bind '
+        line: 'bind 0.0.0.0'
+        state: present
+
+    - name: Ensure Redis is running
+      ansible.builtin.service:
+        name: redis-server
+        state: restarted
+        enabled: yes

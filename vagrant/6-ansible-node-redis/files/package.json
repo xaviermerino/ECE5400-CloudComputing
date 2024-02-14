@@ -1,0 +1,16 @@
+{
+    "name": "vagrant-ansible-example",
+    "version": "1.0.0",
+    "description": "A simple Node.js application",
+    "main": "app.js",
+    "dependencies": {
+      "express": "^4.17.1",
+      "redis": "^3.0.2"
+    },
+    "scripts": {
+      "start": "node app.js"
+    },
+    "author": "Who Knows",
+    "license": "Who Knows"
+  }
+  
