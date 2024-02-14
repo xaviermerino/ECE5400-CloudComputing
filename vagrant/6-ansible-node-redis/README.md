@@ -114,8 +114,8 @@ By the end of this tutorial, you will have:
    ```yml
    ---
    - hosts: web
-   become: yes
-   tasks:
+     become: yes
+     tasks:
       - name: Install Node.js
          ansible.builtin.apt:
          name: nodejs
