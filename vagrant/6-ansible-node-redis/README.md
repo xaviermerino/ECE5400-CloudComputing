@@ -73,14 +73,16 @@ By the end of this tutorial, you will have:
 
 ## Step 4: Create an Ansible Playbook
 
-1. Create a directory named `provisioning` within your project directory:
+1. Copy the `files` directory from the repository to your project directory. It contains the application we are going to deploy.
+
+2. Create a directory named `provisioning` within your project directory:
    ```bash
    mkdir provisioning
    ```
 
-2. Inside `provisioning`, create two files: `db.yml` and `web.yml`.
+3. Inside `provisioning`, create two files: `db.yml` and `web.yml`.
 
-3. Modify the contents of `db.yml` as shown below:
+4. Modify the contents of `db.yml` as shown below:
    ```yml
    ---
    - hosts: db
